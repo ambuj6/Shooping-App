@@ -8,7 +8,6 @@ class OrderScreen extends StatelessWidget {
   static const routeName = 'order-screen';
   @override
   Widget build(BuildContext context) {
-    final order = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -16,10 +15,21 @@ class OrderScreen extends StatelessWidget {
         ),
       ),
       drawer: AppDrawer(),
-      body: ListView.builder(
-        itemCount: order.getOrder.length,
-        itemBuilder: (context, i) => OrderItem(order.getOrder[i]),
-      ),
+      body: FutureBuilder(
+          future:
+              Provider.of<Orders>(context, listen: false).fetchAndSetOrder(),
+          builder: (ctx, dataSnapshot) {
+            if (dataSnapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Consumer<Orders>(
+                  builder: (context, order, child) => ListView.builder(
+                        itemCount: order.getOrder.length,
+                        itemBuilder: (context, i) =>
+                            OrderItem(order.getOrder[i]),
+                      ));
+            }
+          }),
     );
   }
 }

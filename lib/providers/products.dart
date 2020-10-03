@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './product.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import './../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -48,6 +49,9 @@ class Products with ChangeNotifier {
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return;
+      }
       final List<Product> loadedProduct = [];
       extractedData.forEach(
         (prodId, prodData) {
@@ -123,8 +127,19 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((element) => element.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url1 = 'https://shopping-5654e.firebaseio.com/product/$id.json';
+    int deleteIndex = _items.indexWhere((element) => element.id == id);
+    Product deletedProdect = _items[deleteIndex];
+    _items.removeAt(deleteIndex);
     notifyListeners();
+    final response = await http.delete(url1);
+    if (response.statusCode >= 400) {
+      _items.insert(deleteIndex, deletedProdect);
+      notifyListeners();
+      throw HttpException("Something went wrong");
+    }
+    deletedProdect = null;
+    deleteIndex = null;
   }
 }

@@ -84,7 +84,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     });
     if (_editedProduct.id == null) {
       try {
-        final response = await Provider.of<Products>(context, listen: false)
+        await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
       } catch (error) {
         print("error caught");
