@@ -13,6 +13,7 @@ enum FilterOption {
 }
 
 class ProductOverviewScreen extends StatefulWidget {
+  static const routeName = '/product-overview-screen';
   @override
   _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
 }
@@ -27,8 +28,14 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Products>(context).fetchAndSetProduct().then((_) {
+      Provider.of<Products>(
+        context,
+      ).fetchAndSetProduct().then((_) {
         _isLoading = false;
+        // Provider.of<Cart>(
+        //   context,
+        //   listen: false,
+        // ).fetchAndSetItem().then((value) => _isLoading = false);
       });
     }
     _isInit = false;

@@ -161,7 +161,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             price: _editedProduct.price,
                             description: _editedProduct.description,
                             imageUrl: _editedProduct.imageUrl,
-                            isFavourite: _editedProduct.isFavourite,
                           );
                         }),
                     TextFormField(
@@ -192,7 +191,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         price: double.parse(value),
                         description: _editedProduct.description,
                         imageUrl: _editedProduct.imageUrl,
-                        isFavourite: _editedProduct.isFavourite,
                       ),
                     ),
                     TextFormField(
@@ -216,7 +214,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         price: _editedProduct.price,
                         description: value,
                         imageUrl: _editedProduct.imageUrl,
-                        isFavourite: _editedProduct.isFavourite,
                       ),
                     ),
                     Row(
@@ -266,7 +263,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               price: _editedProduct.price,
                               description: _editedProduct.description,
                               imageUrl: value,
-                              isFavourite: _editedProduct.isFavourite,
                             ),
                           ),
                         ),

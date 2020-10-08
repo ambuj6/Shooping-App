@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
-import '../screen/product_detail_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../screen/product_detail_screen.dart';
+
 import './../providers/product.dart';
 import './../providers/cart.dart';
+import './../providers/auth.dart';
 
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context, listen: false);
-    final cartProduct = Provider.of<Cart>(context, listen: false);
+    final product = Provider.of<Product>(
+      context,
+      listen: false,
+    );
+    final cartProduct = Provider.of<Cart>(
+      context,
+      listen: false,
+    );
+    final auth = Provider.of<Auth>(
+      context,
+      listen: false,
+    );
 
     return GestureDetector(
       onTap: () {
@@ -31,7 +44,10 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                   value.isFavourite ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
-                value.toggleFavourite();
+                value.toggleFavourite(
+                  auth.token,
+                  auth.userId,
+                );
               },
             ),
           ),

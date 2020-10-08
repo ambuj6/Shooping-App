@@ -18,19 +18,19 @@ class Product with ChangeNotifier {
       @required this.price,
       this.isFavourite = false});
 
-  Future<void> toggleFavourite() async {
-    final url = 'https://shopping-5654e.firebaseio.com/product/$id.json';
+  Future<void> toggleFavourite(String token, String userId) async {
+    final url =
+        'https://shopping-5654e.firebaseio.com/userFavourite/$userId/$id.json?auth=$token';
     isFavourite = !isFavourite;
     notifyListeners();
-    final response = await http.patch(
+    final response = await http.put(
       url,
       body: json.encode(
-        {
-          'isFavourite': isFavourite,
-        },
+        isFavourite,
       ),
     );
     if (response.statusCode >= 400) {
+      print(response.body);
       isFavourite = !isFavourite;
       notifyListeners();
     }
